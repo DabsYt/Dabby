@@ -24,7 +24,7 @@ handler=logging.FileHandler(filename="dabby-log.txt",encoding="utf-8",mode="a")
 handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s"))
 logger.addHandler(handler)
 #For source code on github
-sourcelink="https://github.com/DabsYt/Dabby/dabby.py"
+sourcelink="https://github.com/DabsYt/Dabby/blob/master/dabby.py"
 
 #Dont use global bot specific classes here cuz it isnt ready yet(use only for locally available vars like 'pyv'')
 #TOKEN=os.getenv("Token")
