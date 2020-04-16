@@ -23,6 +23,8 @@ logger.setLevel(logging.DEBUG)
 handler=logging.FileHandler(filename="dabby-log.txt",encoding="utf-8",mode="a")
 handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s"))
 logger.addHandler(handler)
+#For source code on github
+sourcelink="https://github.com/DabsYt/Dabby/dabby.py"
 
 #Dont use global bot specific classes here cuz it isnt ready yet(use only for locally available vars like 'pyv'')
 #TOKEN=os.getenv("Token")
@@ -178,6 +180,14 @@ async def gen(ctx,n:int=None):
   else:
   	await ctx.send("Dgen **{length}**")
 
+@bot.command()
+async def source(ctx):
+	timesent=strftime("%d/%m/%Y %H:%M:%S")
+	e=discord.Embed(color=0x55edc2)
+	e.add_field(name="Get my source code here",value=sourcelink)
+	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
+	await ctx.send(embed=e)
+
 bot.remove_command("help")
 @bot.command()
 async def help(ctx):
@@ -193,6 +203,7 @@ async def help(ctx):
 	e.add_field(name="Dinvite",value="Gives the link to invite this bot")
 	e.add_field(name="Dpick {min} {max}",value="Picks a random number between min,max")
 	e.add_field(name="Dgen {length}",value="Generates a string in the desired length")
+	e.adx_field(name="Dsource",value="Shows bot source code link")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
 
