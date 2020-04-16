@@ -204,7 +204,7 @@ async def help(ctx):
 	e.add_field(name="Dinvite",value="Gives the link to invite this bot")
 	e.add_field(name="Dpick {min} {max}",value="Picks a random number between min,max")
 	e.add_field(name="Dgen {length}",value="Generates a string in the desired length")
-	e.adx_field(name="Dsource",value="Shows bot source code link")
+	e.add_field(name="Dsource",value="Shows bot source code link")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
 
