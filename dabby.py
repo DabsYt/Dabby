@@ -8,6 +8,7 @@ import logging
 import platform
 import string
 from random import randint
+import os
 
 bot=commands.Bot(command_prefix="D")
 invitelink="https://discordapp.com/api/oauth2/authorize?client_id=694812810068361246&permissions=8&scope=bot"
