@@ -16,7 +16,7 @@ bot=commands.Bot(command_prefix="D",case_insensitive=True)
 #For global variables
 TOKEN=os.getenv("Token")
 online_v="https://raw.githubusercontent.com/DabsYt/Dabby/master/version"
-bot_v="1.0.0"
+bot_v="1.0.1"
 #TOKEN=os.getenv("Token")
 
 #For definitions
