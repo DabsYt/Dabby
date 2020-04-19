@@ -212,8 +212,7 @@ async def pick(ctx,min:int=None,max:int=None):
 async def gen(ctx,n:int=None):
   if(n):
     sel=string.ascii_letters+string.digits
-    for i in range(n):
-    	gent= ''.join(random.choice(sel))
+    gent= ''.join(random.choice(sel)for i in range(n))
     timesent=strftime("%d/%m/%Y %H:%M:%S")
     e=discord.Embed(title=gent,color=0x55edc2)
     e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
