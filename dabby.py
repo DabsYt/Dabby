@@ -219,7 +219,7 @@ async def gen(ctx,n:int=None):
     e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
     await ctx.send(embed=e)
   else:
-  	await ctx.send("Dgen **{length=<100}**")
+  	await ctx.send("Dgen **{length<=100}**")
  
 #Source code link
 @bot.command()
@@ -265,7 +265,7 @@ async def help(ctx):
 	e.add_field(name="Dinfo {user}",value="Shows info about a user")
 	e.add_field(name="Dinvite",value="Gives the link to invite this bot")
 	e.add_field(name="Dpick {min} {max}",value="Picks a random number between min,max")
-	e.add_field(name="Dgen {length=<100}",value="Generates a string in the desired length")
+	e.add_field(name="Dgen {length<=100}",value="Generates a string in the desired length")
 	e.add_field(name="Dsource",value="Shows bot source code link")
 	e.add_field(name="Dversion",value="Shows current and online version")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
