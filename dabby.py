@@ -210,7 +210,7 @@ async def pick(ctx,min:int=None,max:int=None):
 #Generate string
 @bot.command()
 async def gen(ctx,n:int=None):
-  if(n and n=<100):
+  if(n and n<=100):
     sel=string.ascii_letters+string.digits
     for i in range(n):
     	gent= ''.join(random.choice(sel))
