@@ -9,27 +9,18 @@ import platform
 import string
 from random import randint
 import os
+import random
+from urllib.request import urlopen
 
-bot=commands.Bot(command_prefix="D")
-invitelink="https://discordapp.com/api/oauth2/authorize?client_id=694812810068361246&permissions=8&scope=bot"
+bot=commands.Bot(command_prefix="D",case_insensitive=True)
+
+#For global variables
 TOKEN=os.getenv("Token")
-start=time.time()
-v=discord.__version__
-#vi=discord.version_info same as v
-pyv=platform.python_version()
-osc=platform.system()
-#Log everything
-logger=logging.getLogger("discord")
-logger.setLevel(logging.DEBUG)
-handler=logging.FileHandler(filename="dabby-log.txt",encoding="utf-8",mode="a")
-handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s"))
-logger.addHandler(handler)
-#For source code on github
-sourcelink="https://github.com/DabsYt/Dabby/blob/master/dabby.py"
-
-#Dont use global bot specific classes here cuz it isnt ready yet(use only for locally available vars like 'pyv'')
+online_v="https://raw.githubusercontent.com/DabsYt/Dabby/master/version"
+bot_v="0.1.0"
 #TOKEN=os.getenv("Token")
 
+#For definitions
 async def status():
 	while True:
 		for x in range(9999999):
@@ -44,19 +35,58 @@ async def status():
 			await bot.change_presence(status=discord.Status.online,activity=discord.Game(f"Uptime is {mins} minutes!"))
 			await asyncio.sleep(15)
 	
+#For misc
+pyv=platform.python_version()
+osc=platform.system()
+v=discord.__version__
+
+#For logging in file
+logger=logging.getLogger("discord")
+logger.setLevel(logging.DEBUG)
+handler=logging.FileHandler(filename="dabby-log.txt",encoding="utf-8",mode="a")
+handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s"))
+logger.addHandler(handler)
+
+#For getting start of uptime
+start=time.time()
+	
+#For source code on github
+sourcelink="https://github.com/DabsYt/Dabby/blob/master/dabby.py"
+sourcebetalink="https://github.com/DabsYt/Dabby/blob/master/dabby-beta.py"
+
+#For invite
+invitelink="https://discordapp.com/api/oauth2/authorize?client_id=694812810068361246&permissions=8&scope=bot"
+
+#For version
+versionlink="https://github.com/DabsYt/Dabby/blob/master/version"
+
+#For creating remote embed
+"""def c_embed(titlet:str=None,fields:int=None):
+	if(titlet):
+		if(fields):
+			timesent=strftime("%d/%m/%Y %H:%M:%S")
+		  e=discord.Embed(title=titlet,color=0x55edc2)
+		  for i in range()
+		  e.add_field(name=,value=a*b)
+		  e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
+		  await ctx.send(embed=e)"""
+	
+#On ready
 @bot.event
 async def on_ready():
 	timeup=strftime("%d/%m/%Y %H:%M:%S")
 	print("|---------------|")
-	print(f"|Discord version:{v}|")
 	print("|Bot is running!|")
+	print(f"|Discord version: {v}|")
 	print(f"|Bot name: {bot.user}|")
-	print(f"|Guilds:{len(list(bot.guilds))}|")
+	print(f"|Guilds: {len(list(bot.guilds))}|")
 	for guild in bot.guilds:
-		print(f"|Guild:{guild.name}|Members:{guild.member_count}|")
-	print(f"|Users:{str(len(set(bot.get_all_members())))}|")
+		print(f"|Guild: {guild.name}|Members: {guild.member_count}|")
+	print(f"|Users: {str(len(set(bot.get_all_members())))}|")
+	#Create presence loop
 	bot.loop.create_task(status())
-
+ 
+#Bot info
 @bot.command()
 async def binfo(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
@@ -67,6 +97,7 @@ async def binfo(ctx):
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
 	
+#Latency
 @bot.command()
 async def ping(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
@@ -75,7 +106,8 @@ async def ping(ctx):
 	e.add_field(name="Latency",value=pingtime)
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
-
+ 
+#Add
 @bot.command()
 async def add(ctx,a:int,b:int):
 	if(a):
@@ -90,6 +122,7 @@ async def add(ctx,a:int,b:int):
 	else:
 		await ctx.send("Dadd **{a}** {b}")
 	
+#Subtract
 @bot.command()
 async def sub(ctx,a:int,b:int):
 	if(a):
@@ -104,6 +137,7 @@ async def sub(ctx,a:int,b:int):
 	else:
 		await ctx.send("Dsub **{a}** {b}")
 	
+#Multiply
 @bot.command()
 async def multiply(ctx,a:int,b:int):
 	if(a):
@@ -118,6 +152,7 @@ async def multiply(ctx,a:int,b:int):
 	else:
 		await ctx.send("Dmultiply **{a}** {b}")
 	
+#Divide
 @bot.command()
 async def divide(ctx,a:int,b:int):
 	if(a):
@@ -132,6 +167,7 @@ async def divide(ctx,a:int,b:int):
 	else:
 		await ctx.send("Ddivide **{a}** {b}")
 		
+#User info
 @bot.command()
 async def info(ctx,user:discord.User=None):
 	if(user):
@@ -145,15 +181,17 @@ async def info(ctx,user:discord.User=None):
 		await ctx.send(embed=e)
 	else:
 		await ctx.send("Dinfo **{user}**")
-
+ 
+#Invite link
 @bot.command()
 async def invite(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
 	e=discord.Embed(color=0x55edc2)
-	e.add_field(name="Invite me using this link",value=invitelink)
+	e.add_field(name="Invite the basic version using this link",value=invitelink)
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
-
+ 
+#Pick number
 @bot.command()
 async def pick(ctx,min:int=None,max:int=None):
 	if(min):
@@ -168,26 +206,50 @@ async def pick(ctx,min:int=None,max:int=None):
 			await ctx.send("Dpick {min} **{max}**")
 	else:
 		await ctx.send("Dpick **{min}** {max}")
-
+ 
+#Generate string
 @bot.command()
 async def gen(ctx,n:int=None):
   if(n):
     sel=string.ascii_letters+string.digits
-    gent= ''.join(random.choice(sel)for i in range(n))
+    for i in range(n):
+    	gent= ''.join(random.choice(sel))
     timesent=strftime("%d/%m/%Y %H:%M:%S")
     e=discord.Embed(title=gent,color=0x55edc2)
     e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
     await ctx.send(embed=e)
   else:
   	await ctx.send("Dgen **{length}**")
-
+ 
+#Source code link
 @bot.command()
 async def source(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
 	e=discord.Embed(color=0x55edc2)
-	e.add_field(name="Get my source code here",value=sourcelink)
+	e.add_field(name="Get the bot's code here",value=sourcelink)
+	e.add_field(name="Get the bot's beta code here",value=sourcebetalink)
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
+ 
+#Get version
+@bot.command()
+async def version(ctx):
+	async def get_v():
+		online_v=urlopen("https://raw.githubusercontent.com/DabsYt/Dabby/master/version")
+		latest=str(online_v.read()).replace("b","").replace("'","")
+		timesent=strftime("%d/%m/%Y %H:%M:%S")
+		if(int(latest.replace(".",""))>int(bot_v.replace(".",""))):
+			titlet="Update is available online"
+		else:
+			titlet="Bot is up to date"
+		e=discord.Embed(title=titlet,color=0x55edc2)
+		e.add_field(name="Online version",value=latest)
+		e.add_field(name="Bot version",value=bot_v)
+		e.add_field(name="Version got from here",value=versionlink)
+		e.add_field(name="You can use early versions here by downloading the beta version",value="https://github.com/DabsYt/Dabby/blob/master/dabby-beta.py")
+		e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
+		await ctx.send(embed=e)
+	await get_v()
 
 bot.remove_command("help")
 @bot.command()
@@ -205,11 +267,12 @@ async def help(ctx):
 	e.add_field(name="Dpick {min} {max}",value="Picks a random number between min,max")
 	e.add_field(name="Dgen {length}",value="Generates a string in the desired length")
 	e.add_field(name="Dsource",value="Shows bot source code link")
+	e.add_field(name="Dversion",value="Shows current and online version")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
-
+ 
 bot.run(TOKEN)
-
+ 
 """
 !Autorole!
 @bot.event
