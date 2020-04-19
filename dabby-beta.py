@@ -8,8 +8,8 @@ import logging
 import platform
 import string
 from random import randint
-import os
 import random
+import os
 from urllib.request import urlopen
 
 bot=commands.Bot(command_prefix="D",case_insensitive=True)
@@ -17,7 +17,7 @@ bot=commands.Bot(command_prefix="D",case_insensitive=True)
 #For global variables
 TOKEN=os.getenv("Token")
 online_v="https://raw.githubusercontent.com/DabsYt/Dabby/master/version"
-bot_v="0.1.0"
+bot_v="0.1.1"
 #TOKEN=os.getenv("Token")
 
 #For definitions
@@ -55,7 +55,7 @@ sourcelink="https://github.com/DabsYt/Dabby/blob/master/dabby.py"
 sourcebetalink="https://github.com/DabsYt/Dabby/blob/master/dabby-beta.py"
 
 #For invite
-invitelink="https://discordapp.com/api/oauth2/authorize?client_id=694812810068361246&permissions=8&scope=bot"
+invitelink="https://discordapp.com/api/oauth2/authorize?client_id=701374856247246888&permissions=8&scope=bot"
 
 #For version
 versionlink="https://github.com/DabsYt/Dabby/blob/master/version"
@@ -70,7 +70,7 @@ versionlink="https://github.com/DabsYt/Dabby/blob/master/version"
 		  e.add_field(name=,value=a*b)
 		  e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 		  await ctx.send(embed=e)"""
-	
+
 #On ready
 @bot.event
 async def on_ready():
@@ -85,12 +85,14 @@ async def on_ready():
 	print(f"|Users: {str(len(set(bot.get_all_members())))}|")
 	#Create presence loop
 	bot.loop.create_task(status())
- 
+
 #Bot info
 @bot.command()
 async def binfo(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
 	e=discord.Embed(title="Bot Info",color=0x55edc2)
+	e.add_field(name="Servers",value=len(list(bot.guilds)))
+	e.add_field(name="Members",value=str(len(set(bot.get_all_members()))))
 	e.add_field(name="Discord version",value=v)
 	e.add_field(name="OS",value=osc)
 	e.add_field(name="Python version",value=pyv)
@@ -101,12 +103,12 @@ async def binfo(ctx):
 @bot.command()
 async def ping(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
-	pingtime=bot.latency
+	pingtime=round(bot.latency,1)
 	e=discord.Embed(color=0x55edc2)
-	e.add_field(name="Latency",value=pingtime)
+	e.add_field(name="Latency",value=f"{pingtime}ms")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
- 
+
 #Add
 @bot.command()
 async def add(ctx,a:int,b:int):
@@ -181,16 +183,16 @@ async def info(ctx,user:discord.User=None):
 		await ctx.send(embed=e)
 	else:
 		await ctx.send("Dinfo **{user}**")
- 
+
 #Invite link
 @bot.command()
 async def invite(ctx):
 	timesent=strftime("%d/%m/%Y %H:%M:%S")
 	e=discord.Embed(color=0x55edc2)
-	e.add_field(name="Invite the basic version using this link",value=invitelink)
+	e.add_field(name="Invite the beta version using this link",value=invitelink)
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
- 
+
 #Pick number
 @bot.command()
 async def pick(ctx,min:int=None,max:int=None):
@@ -206,21 +208,20 @@ async def pick(ctx,min:int=None,max:int=None):
 			await ctx.send("Dpick {min} **{max}**")
 	else:
 		await ctx.send("Dpick **{min}** {max}")
- 
+
 #Generate string
 @bot.command()
 async def gen(ctx,n:int=None):
-  if(n):
+  if(n and n>0):
     sel=string.ascii_letters+string.digits
-    for i in range(n):
-    	gent= ''.join(random.choice(sel))
+    gent= ''.join(random.choice(sel)for i in range(n))
     timesent=strftime("%d/%m/%Y %H:%M:%S")
     e=discord.Embed(title=gent,color=0x55edc2)
     e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
     await ctx.send(embed=e)
   else:
   	await ctx.send("Dgen **{length}**")
- 
+
 #Source code link
 @bot.command()
 async def source(ctx):
@@ -230,7 +231,32 @@ async def source(ctx):
 	e.add_field(name="Get the bot's beta code here",value=sourcebetalink)
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
- 
+	
+#Get reaction
+"""@bot.command()
+async def react(ctx):
+	msg=await ctx.send("React with: 👍")
+	def check(reaction,user):
+		return user==ctx.author and str(reaction.emoji)=="👍"
+	try:
+		reaction,user=await bot.wait_for("reaction_add",timeout=10.0,check=check)
+	except asyncio.TimeoutError:
+		await ctx.send("Didnt react :(")
+	else:
+		await ctx.send("Reacted :) good boi")"""
+		
+#Repeat
+@bot.command()
+async def repeat(ctx,t:int=None,*,txt:str=None):
+	if(t and t>0 and t<=5):
+		if(txt and len(txt)<=30):
+			for i in range(t):
+				await ctx.send(txt)
+		else:
+			await ctx.send("Drepeat {times=<5} **{text=<30}**")
+	else:
+		await ctx.send("Drepeat **{times=<5}** {text=<30}")
+
 #Get version
 @bot.command()
 async def version(ctx):
@@ -250,7 +276,7 @@ async def version(ctx):
 		e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 		await ctx.send(embed=e)
 	await get_v()
-
+		
 bot.remove_command("help")
 @bot.command()
 async def help(ctx):
@@ -267,12 +293,14 @@ async def help(ctx):
 	e.add_field(name="Dpick {min} {max}",value="Picks a random number between min,max")
 	e.add_field(name="Dgen {length}",value="Generates a string in the desired length")
 	e.add_field(name="Dsource",value="Shows bot source code link")
+	#e.add_field(name="Dreact {emoji}",value="Waits for your reaction with an emoji")
+	e.add_field(name="Drepeat {times=<5} {text=<30}",value="Repeats a message with a desired text")
 	e.add_field(name="Dversion",value="Shows current and online version")
 	e.set_footer(text=f"Sent at {timesent} for {ctx.author.name}")
 	await ctx.send(embed=e)
- 
-bot.run(TOKEN)
- 
+
+bot.run(TOKEN,reconnect=True)
+
 """
 !Autorole!
 @bot.event
