@@ -10,7 +10,6 @@ import string
 from random import randint
 import random
 from urllib.request import urlopen
-import json
 
 #Definitions
 def get_time():
@@ -19,11 +18,11 @@ def get_time():
 def format(text):
     return text.get_time
 
-def get_prefix(bot,message):
+"""def get_prefix(bot,message):
     with open("prefixes.json","r") as f:
         prefixes=json.load(f)
         prefix=prefixes[str(message.guild.id)]
-        return prefix
+        return prefix"""
 
 async def status():
 	while True:
