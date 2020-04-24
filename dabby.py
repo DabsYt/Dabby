@@ -39,7 +39,7 @@ async def status():
 			await bot.change_presence(status=discord.Status.online,activity=discord.Game(f"Uptime is {mins} minutes!"))
 			await asyncio.sleep(15)
 
-bot=commands.Bot(command_prefix=get_prefix,case_insensitive=True)
+bot=commands.Bot(command_prefix="D",case_insensitive=True)
 
 #For variables
 TOKEN=os.getenv("Token")
