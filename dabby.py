@@ -10,15 +10,12 @@ TOKEN=os.getenv("Token")
 
 #On message
 @bot.event
-@commands.guild_only() #No dms
 async def on_message(message):
     channel=message.channel
     if(message.author==bot.user):
         return
     elif(message.channel.id==697416071593984013):
         await bot.process_commands(message)
-    elif(message.content.startswith=="D"):
-        await channel.send("```Bot's in test mode right now,try again later.```")
 
 #Latency
 @bot.command()
