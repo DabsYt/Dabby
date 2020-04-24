@@ -85,8 +85,10 @@ async def on_message(message):
         return
     elif(message.channel.id==697416071593984013):
         await bot.process_commands(message)
-    else:
+    elif(message.content.startswith=="D"):
         await channel.send("```Bot's in test mode right now,try again later.```")
+    else:
+	return
 
 #Bot info
 @bot.command()
