@@ -16,9 +16,8 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-  if(message.channel.id==702167627094818987):
-    if(message.content=="botkeepalive"):
-      await bot.loop.create_task(keepalive(message))
+  if(message.content=="botkeepalive"):
+      bot.loop.create_task(keepalive(message))
       await message.channel.send("Done!")
       
 bot.run(os.getenv("Ttoken"))
