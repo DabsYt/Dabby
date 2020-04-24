@@ -10,7 +10,6 @@ import string
 from random import randint
 import random
 from urllib.request import urlopen
-import json
 import os
 
 #Definitions
@@ -19,12 +18,6 @@ def get_time():
 
 def format(text):
     return text.get_time
-
-def get_prefix(bot,message):
-    with open("prefixes.json","r") as f:
-        prefixes=json.load(f)
-        prefix=prefixes[str(message.guild.id)]
-        return prefix
 
 async def status():
 	while True:
@@ -87,8 +80,6 @@ async def on_message(message):
         await bot.process_commands(message)
     elif(message.content.startswith=="D"):
         await channel.send("```Bot's in test mode right now,try again later.```")
-    else:
-	return
 
 #Bot info
 @bot.command()
@@ -187,6 +178,7 @@ async def info(ctx,user:discord.Member=None):
         e.add_field(name="Joined at",value=joined)
         e.add_field(name="Created at",value=created)
         e.set_footer(text="Sent at {timesent} for {ctx.author.name}")
+	await ctx.send(embed=e)
     else:
         await ctx.send("```Dinfo **{user}**```")
 
