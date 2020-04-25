@@ -6,7 +6,7 @@ import os
 bot=commands.Bot(command_prefix="D",case_insensitive=True)
 
 #For variables
-TOKEN=os.getenv("Token")
+TOKEN=os.getenv("Ttoken")
 
 #On message
 @bot.event
